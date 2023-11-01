@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet } from 'react-native';
-import { writeToStorage, removeFromStorage } from './Storage';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { writeToStorage } from './Storage';
 
 const AlunoForm = ({ onSave }) => {
   const [nome, setNome] = useState('');
@@ -17,11 +17,6 @@ const AlunoForm = ({ onSave }) => {
     setMatricula('');
     setTurno('');
     setCurso('');
-  };
-
-  const deleteAluno = () => {
-    removeFromStorage(alunoSalvo.matricula);
-    setAlunoSalvo(null);
   };
 
   return (
@@ -51,33 +46,17 @@ const AlunoForm = ({ onSave }) => {
         value={curso}
       />
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.saveButton}
-          onPress={saveAluno}
-        >
-          <Text style={styles.saveButtonText}>Salvar</Text>
-        </TouchableOpacity>
+        <Button title="Salvar" onPress={saveAluno} color="#1976D2" />
       </View>
       {alunoSalvo && (
         <View style={styles.salvoContainer}>
           <Text style={styles.salvoTitle}>Aluno Salvo:</Text>
           <View style={styles.salvoInfo}>
-            <Text style={styles.infoItem}>
-              <Text style={styles.infoLabel}>Nome:</Text> {alunoSalvo.nome}
-            </Text>
-            <Text style={styles.infoItem}>
-              <Text style={styles.infoLabel}>Matrícula:</Text> {alunoSalvo.matricula}
-            </Text>
-            <Text style={styles.infoItem}>
-              <Text style={styles.infoLabel}>Turno:</Text> {alunoSalvo.turno}
-            </Text>
-            <Text style={styles.infoItem}>
-              <Text style={styles.infoLabel}>Curso:</Text> {alunoSalvo.curso}
-            </Text>
+            <Text style={styles.infoItem}>Nome: <Text style={styles.infoValue}>{alunoSalvo.nome}</Text></Text>
+            <Text style={styles.infoItem}>Matrícula: <Text style={styles.infoValue}>{alunoSalvo.matricula}</Text></Text>
+            <Text style={styles.infoItem}>Turno: <Text style={styles.infoValue}>{alunoSalvo.turno}</Text></Text>
+            <Text style={styles.infoItem}>Curso: <Text style={styles.infoValue}>{alunoSalvo.curso}</Text></Text>
           </View>
-          <TouchableOpacity onPress={deleteAluno} style={styles.deleteButton}>
-            <Text style={styles.deleteButtonText}>Excluir</Text>
-          </TouchableOpacity>
         </View>
       )}
     </View>
@@ -105,15 +84,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 5,
   },
-  saveButton: {
-    backgroundColor: '#1976D2',
-    borderRadius: 5,
-    padding: 10,
-  },
-  saveButtonText: {
-    color: 'white',
-    textAlign: 'center',
-  },
   salvoContainer: {
     borderWidth: 1,
     borderColor: '#1976D2',
@@ -132,18 +102,8 @@ const styles = StyleSheet.create({
   infoItem: {
     marginBottom: 5,
   },
-  infoLabel: {
+  infoValue: {
     fontWeight: 'bold',
-  },
-  deleteButton: {
-    backgroundColor: '#FF0000',
-    padding: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  deleteButtonText: {
-    color: '#FFFFFF',
   },
 });
 
